@@ -9,16 +9,15 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # ------------- Build type (enforce for single-config) -------------
 # VS/Xcode have multi-config, NMake/Ninja/Makefiles are single-config.
-if(NOT CMAKE_CONFIGURATION_TYPES)
-  set(CMAKE_BUILD_TYPE "" CACHE STRING "Choose build type: Debug, Release, RelWithDebInfo, MinSizeRel")
-  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS Debug Release RelWithDebInfo MinSizeRel)
-  if(NOT CMAKE_BUILD_TYPE)
-    message(FATAL_ERROR
-      "CMAKE_BUILD_TYPE is not set.\n"
-      "Choose one of: Debug, Release, RelWithDebInfo, MinSizeRel.\n"
-      "Example (NMake): cmake -G \"NMake Makefiles\" -S . -B build-nmake -DCMAKE_BUILD_TYPE=Debug")
-  endif()
-endif()
+ if(NOT CMAKE_CONFIGURATION_TYPES)
+   set(CMAKE_BUILD_TYPE "" CACHE STRING "Choose build type: Debug, Release, RelWithDebInfo, MinSizeRel")
+   set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS Debug Release RelWithDebInfo MinSizeRel)
+   if(NOT CMAKE_BUILD_TYPE)
+     set(default_build_type "Release")
+     message(STATUS "CMAKE_BUILD_TYPE not set. Defaulting to ${default_build_type}.")
+     set(CMAKE_BUILD_TYPE "${default_build_type}" CACHE STRING "" FORCE)
+   endif()
+ endif()
 
 # ------------------- Platform tags (explicit) -------------------
 if(WIN32)
